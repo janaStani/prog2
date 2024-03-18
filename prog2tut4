@@ -1,0 +1,152 @@
+(*write a func that checks whether a given list is a planindrome*)
+let palindrome list = 
+let rec equal list1 list2 = match (list1, list2) with
+|([],[]) -> true
+|([],_) | (_,[]) -> false
+|(h1::t1, h2::t2) when h1 = h2 -> equal t1 t2
+|_ -> false
+in equal list (List.rev list);;
+palindrome[1;3];;
+
+
+String.length "banana";;
+
+"banana".[0];;
+
+(*write function explode that converts a string to a list of chars*)
+let explode str =
+let rec fakeforloop list i = match i with
+|0 -> list
+|x -> fakeforloop (str.[i-1]::list) (i - 1)
+in fakeforloop[] (String.length str);;
+
+explode "banana";;
+
+
+String.make 1;;
+String.make 1 's';;
+
+List.map (fun x -> String.make 1 x) ['b';'a';'n';'a';'n';'a'];;
+
+(*fold right*)
+List.fold_right (^) ["a";"b";"c"]"d";;
+
+
+(*fold right*)
+List.fold_right (^) ["a";"b";"c"]"d";;
+List.fold_right (^) ["a";"b";"c"]("d"^"c");;
+List.fold_right (^) []("d"^"abc");;
+
+
+(*from char list to string*)
+List.fold_right (^)
+(List.map (fun x -> String.make 1 x) ['b';'a';'n';'a';'n';'a'])"";;
+
+
+
+
+(*write a function impode that converts list of char into string*)
+let implode list = 
+List.fold_right (fun x y -> (String.make 1 x)^y) list "";;
+implode ['K';'o';'p';'e';'r'];;
+
+
+
+(*fold left*)
+(*calc summ of ell of a list*)
+List.fold_left (+) 0 [1;2;3;4;5];;
+
+
+
+
+
+
+
+let list_length list = 
+List.fold_left (fun x y -> x + 1) 0 list;;
+list_length ['K';'o';'p';'e';'r'];;
+
+let list_length2 list = 
+List.fold_right (fun x y -> y + 1) list 0;;
+list_length2 ['K';'o';'p';'e';'r'];;
+
+List.length['K';'o';'p';'e';'r'];;
+
+
+
+List.length[1;2];;
+[1;2] |> List.length;;
+2 |> ((-)1);;
+
+
+(*func replace lower letter with upper*)
+let replace letter = match letter with
+| 'A'..'Z' -> letter |> int_of_char |> ((+)32) |> char_of_int
+| 'a'..'z' -> letter |> int_of_char |> (fun x -> x - 32) |> char_of_int
+|_ -> letter;;
+replace 'b';;
+
+
+
+
+(*map*)
+List.map (fun x -> x+1)[1;2;3];;
+List.map ((+)1) [1;2;3];;
+
+let rec map fnc list = match list with
+|[] -> []
+|h::t -> (fnc h)::(map fnc t);;
+map ((+)1) [1;2;3];;
+
+
+
+(*filters*)
+(*func get list and num return list with grater than given num*)
+let rec grater_than list n = match list with
+|[] ->[]
+| h::t when h > n -> h::grater_than t n
+| _::t -> grater_than t n;;
+grater_than[1;6;3;10;4;11]4;;
+
+
+
+List.filter (fun x -> x >= 2) [1;6;3;10;4;11];;
+List.filter ((<=)2) [1;6;3;10;4;11];;
+
+
+
+let rec filter fnc = function
+|[] -> []
+|h::t when fnc h -> h::(filter fnc t)
+|_::t -> filter fnc t;;
+filter ((<=)2) [1;6;3;10;4;11];;
+
+
+(*forAll function*)
+List.for_all ((<=)2) [1;6;3;10;4;11];;
+
+
+
+let rec for_all fnc = function
+|[] -> true
+|h::t when fnc h -> for_all fnc t
+|_ -> false;;
+for_all  ((<=)2) [1;6;3;10;4;11];;
+
+
+(*turn left*)
+let reverse list = 
+List.fold_left (fun x y -> y::x) [] list;;
+reverse [1;6;3;10;4;11];;
+
+
+(*option function*)
+type 'a option = Some of 'a | None;;
+let div5 n = if (n mod 5 = 0) then Some n else None;;
+
+let rec find_map f = function
+|[] -> None
+|h::t when (f h) = None -> find_map f t
+|h::_ -> (f h);;
+
+find_map div5 [1;2;3;4;5];;
